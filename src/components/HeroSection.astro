@@ -1,0 +1,59 @@
+---
+interface Props {
+  domain: string;
+  heroImage: string;
+  trustPoints: string[];
+  price: string;
+}
+
+const { domain, heroImage, trustPoints, price } = Astro.props;
+---
+
+<header class="pt-20 pb-16 md:pt-24 md:pb-20 border-b border-white/10">
+  <div class="max-w-5xl mx-auto px-6 text-center">
+    <!-- Trust Badge -->
+    <div class="inline-flex items-center gap-x-2 px-4 py-1.5 rounded-3xl bg-white/5 border border-white/10 mb-8">
+      <div class="flex -space-x-1">
+        <div class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
+      </div>
+      <span class="text-xs font-semibold tracking-[1.5px] text-emerald-400 uppercase">Premium Exact-Match Domain</span>
+    </div>
+
+    <h1 class="text-6xl md:text-7xl lg:text-7xl font-display tracking-tighter font-bold leading-none mb-4">
+      hvac<span class="text-cyan-400">.</span>contact
+    </h1>
+
+    <p class="max-w-2xl mx-auto text-2xl md:text-3xl text-slate-300 tracking-tight mb-4">
+      The definitive destination for everything HVAC.
+    </p>
+
+    <p class="max-w-xl mx-auto text-lg text-slate-400 mb-10">
+      Own the single most powerful digital asset in the global heating, ventilation,
+      and air conditioning industry — a premium brand platform ready for reviews,
+      consulting, contractor marketplaces, and worldwide service connections.
+    </p>
+
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+      <a href="#acquire"
+         class="group w-full sm:w-auto inline-flex items-center justify-center gap-x-3 px-9 py-4 rounded-3xl bg-cyan-400 hover:bg-white text-slate-950 font-semibold text-lg transition-all active:scale-[0.985] shadow-xl shadow-cyan-400/20">
+        <span>Acquire for {price}</span>
+        <i class="fa-solid fa-arrow-right group-active:translate-x-0.5 transition-transform"></i>
+      </a>
+
+      <button onclick="document.getElementById('inquiry-modal').classList.remove('hidden'); document.getElementById('inquiry-modal').classList.add('flex')"
+              class="w-full sm:w-auto inline-flex items-center justify-center gap-x-2 px-8 py-4 rounded-3xl border border-white/20 hover:bg-white/5 font-medium text-base transition-all active:scale-[0.985]">
+        <i class="fa-regular fa-envelope"></i>
+        <span>Inquire Privately</span>
+      </button>
+    </div>
+
+    <div class="mt-10 flex flex-wrap justify-center gap-x-8 gap-y-3 text-sm text-slate-400">
+      {trustPoints.map((point) => (
+        <div class="flex items-center gap-x-2">
+          <i class="fa-solid fa-check text-emerald-400"></i>
+          <span>{point}</span>
+        </div>
+      ))}
+    </div>
+  </div>
+</header>

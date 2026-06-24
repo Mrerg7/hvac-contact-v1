@@ -1,0 +1,72 @@
+---
+export interface Props {
+  title?: string;
+  description?: string;
+  path?: string;
+}
+
+const canonicalPath = Astro.props.path ?? Astro.url.pathname;
+const domain = 'hvac.contact';
+const fullUrl = `https://${domain}${canonicalPath}`;
+
+const title = Astro.props.title ?? `${domain} | The Definitive HVAC Domain — Now Available`;
+const description = Astro.props.description ?? `${domain} — The definitive premium domain for the global HVAC industry. Perfect for reviews, consultant platforms, contractor marketplaces, and lead generation. Now available for acquisition.`;
+---
+
+<!-- Primary Meta -->
+<title>{title}</title>
+<meta name="description" content={description}>
+<meta name="keywords" content="hvac.contact, HVAC domain for sale, premium HVAC domain, HVAC reviews site, HVAC consultant platform, HVAC marketplace domain">
+
+<!-- Canonical -->
+<link rel="canonical" href={fullUrl}>
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:title" content={title}>
+<meta property="og:description" content={description}>
+<meta property="og:url" content={fullUrl}>
+<meta property="og:site_name" content={domain}>
+<meta property="og:image" content="https://imagedelivery.net/-sPAUAWeA405NiWJ0SNIQA/335b1bdd-ec88-44ef-8d19-b87ae2d69700/public">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content={title}>
+<meta name="twitter:description" content={description}>
+<meta name="twitter:image" content="https://imagedelivery.net/-sPAUAWeA405NiWJ0SNIQA/335b1bdd-ec88-44ef-8d19-b87ae2d69700/public">
+
+<!-- Structured Data: WebSite -->
+<script type="application/ld+json" set:html={`{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "${domain}",
+  "url": "https://${domain}/",
+  "description": "${description}",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": "https://${domain}/search?q={search_term_string}"
+    },
+    "query-input": "required name=search_term_string"
+  }
+}`}>
+</script>
+
+<!-- Structured Data: Organization -->
+<script type="application/ld+json" set:html={`{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "${domain}",
+  "url": "https://${domain}/",
+  "description": "${description}",
+  "logo": "https://imagedelivery.net/-sPAUAWeA405NiWJ0SNIQA/335b1bdd-ec88-44ef-8d19-b87ae2d69700/public",
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "email": "sales@desertrich.com",
+    "contactType": "sales"
+  }
+}`}>
+</script>

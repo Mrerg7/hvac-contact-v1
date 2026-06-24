@@ -1,0 +1,64 @@
+---
+interface Props {
+  disclaimer: string;
+  footerLinks: { label: string; href: string }[];
+}
+
+const { disclaimer, footerLinks } = Astro.props;
+---
+
+<footer class="border-t border-white/10 bg-slate-950">
+  <!-- Domain Acquisition CTA Strip -->
+  <div class="border-b border-white/5 bg-gradient-to-r from-cyan-950/40 via-slate-950 to-cyan-950/40">
+    <div class="max-w-7xl mx-auto px-6 py-12">
+      <div class="flex flex-col lg:flex-row items-center justify-between gap-8">
+        <div class="flex-1 text-center lg:text-left">
+          <p class="text-xs font-bold tracking-[2px] text-cyan-400 uppercase mb-3">Domain Available for Acquisition</p>
+          <h3 class="text-2xl md:text-3xl font-display font-bold tracking-tight mb-2">
+            Own <span class="text-cyan-400">hvac.contact</span> — the definitive HVAC digital asset
+          </h3>
+          <p class="text-slate-400 text-sm max-w-xl">
+            This premium exact-match domain is available for serious buyers. Secure the most authoritative name
+            in the global HVAC industry and build the category's next defining platform.
+          </p>
+        </div>
+        <div class="flex flex-col items-center lg:items-end gap-3">
+          <div class="text-3xl font-display font-bold tracking-tight text-white">$62,500</div>
+          <div class="text-xs text-slate-400">USD • One-time acquisition</div>
+          <a href="mailto:sales@desertrich.com?subject=Inquiry%20for%20hvac.contact%20acquisition"
+             class="inline-flex items-center gap-x-2 px-8 py-3 rounded-2xl bg-cyan-400 hover:bg-white text-slate-950 font-semibold text-sm transition-all active:scale-[0.985] shadow-lg shadow-cyan-400/20">
+            <i class="fa-solid fa-envelope"></i>
+            <span>sales@desertrich.com</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Disclaimer -->
+  <div class="max-w-7xl mx-auto px-6 py-6">
+    <div class="bg-slate-900/50 border border-white/5 rounded-2xl p-6 mb-6">
+      <div class="flex items-start gap-x-3">
+        <i class="fa-solid fa-circle-info text-cyan-400 mt-0.5 flex-shrink-0"></i>
+        <p class="text-xs text-slate-500 leading-relaxed">{disclaimer}</p>
+      </div>
+    </div>
+
+    <!-- Bottom Bar -->
+    <div class="flex flex-col md:flex-row justify-between items-center gap-y-3 text-center md:text-left">
+      <div class="text-xs text-slate-500">
+        &copy; 2026 hvac.contact — Premium domain asset. All rights reserved by current owner.
+      </div>
+      <div class="flex items-center justify-center gap-x-5 text-xs text-slate-500">
+        {footerLinks.map((link, i) => (
+          <>
+            {i > 0 && <span class="text-white/20">&bull;</span>}
+            <a href={link.href} class="hover:text-slate-400 transition-colors" target={link.href.startsWith('http') ? '_blank' : undefined} rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}>
+              {link.label}
+            </a>
+          </>
+        ))}
+      </div>
+    </div>
+  </div>
+</footer>

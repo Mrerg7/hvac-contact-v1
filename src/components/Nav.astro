@@ -1,0 +1,94 @@
+<nav id="nav" class="fixed top-0 left-0 right-0 z-50 border-b border-white/10 transition-all duration-300">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="flex items-center justify-between h-20">
+      <!-- Logo -->
+      <div class="flex items-center gap-x-3">
+        <span class="font-display text-2xl font-semibold tracking-tighter">hvac</span>
+        <span class="font-display text-2xl font-semibold tracking-tighter text-cyan-400">.contact</span>
+      </div>
+
+      <!-- Desktop Menu -->
+      <div class="hidden md:flex items-center gap-x-9 text-sm font-medium">
+        <a href="#why" class="nav-link text-slate-300 hover:text-white">Why This Domain</a>
+        <a href="#opportunity" class="nav-link text-slate-300 hover:text-white">The Opportunity</a>
+        <a href="#vision" class="nav-link text-slate-300 hover:text-white">The Vision</a>
+        <a href="#acquire" class="nav-link text-slate-300 hover:text-white">Acquire</a>
+      </div>
+
+      <div class="flex items-center gap-x-4">
+        <!-- Mobile menu button -->
+        <button id="mobile-menu-btn"
+                class="md:hidden w-10 h-10 flex items-center justify-center text-slate-400 hover:text-white transition-colors"
+                aria-label="Toggle menu">
+          <i class="fa-solid fa-bars text-xl"></i>
+        </button>
+
+        <!-- CTA Button -->
+        <a href="#acquire"
+           class="hidden md:flex items-center gap-x-2 px-6 py-2.5 rounded-2xl bg-white text-slate-950 hover:bg-cyan-400 hover:text-slate-950 transition-all font-semibold text-sm shadow-lg shadow-white/10 active:scale-[0.985]">
+          <span>Acquire Now</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div id="mobile-menu" class="hidden md:hidden fixed inset-0 z-40 bg-slate-950/95 pt-20 px-6">
+  <div class="flex flex-col gap-y-1 text-lg font-medium pt-8">
+    <a href="#why" class="mobile-nav-link py-4 border-b border-white/10 text-slate-300">Why This Domain</a>
+    <a href="#opportunity" class="mobile-nav-link py-4 border-b border-white/10 text-slate-300">The Opportunity</a>
+    <a href="#vision" class="mobile-nav-link py-4 border-b border-white/10 text-slate-300">The Vision</a>
+    <a href="#acquire" class="mobile-nav-link py-4 border-b border-white/10 text-slate-300">Acquire</a>
+
+    <div class="pt-8">
+      <a href="#acquire"
+         class="w-full flex items-center justify-center gap-x-2 px-6 py-3.5 rounded-3xl bg-white text-slate-950 font-semibold text-base active:scale-[0.985]">
+        Acquire hvac.contact
+      </a>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Navbar scroll effect
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 20) {
+      nav.classList.add('nav-scrolled', 'shadow-xl');
+    } else {
+      nav.classList.remove('nav-scrolled', 'shadow-xl');
+    }
+  });
+
+  // Mobile menu
+  const btn = document.getElementById('mobile-menu-btn');
+  const menu = document.getElementById('mobile-menu');
+  btn?.addEventListener('click', () => {
+    if (menu.classList.contains('hidden')) {
+      menu.classList.remove('hidden');
+      btn.innerHTML = '<i class="fa-solid fa-times text-xl"></i>';
+    } else {
+      menu.classList.add('hidden');
+      btn.innerHTML = '<i class="fa-solid fa-bars text-xl"></i>';
+    }
+  });
+
+  document.querySelectorAll('.mobile-nav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      menu.classList.add('hidden');
+      btn.innerHTML = '<i class="fa-solid fa-bars text-xl"></i>';
+    });
+  });
+
+  // Smooth scroll for nav anchors
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+</script>

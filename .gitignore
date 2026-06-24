@@ -1,0 +1,21 @@
+# build output
+dist/
+.wrangler/
+
+# astro types
+.astro/
+
+# dependencies
+node_modules/
+
+# environment
+.env
+.env.*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/

@@ -1,0 +1,107 @@
+<div id="inquiry-modal" onclick="if (event.target.id === 'inquiry-modal') document.getElementById('inquiry-modal').classList.add('hidden')" class="hidden fixed inset-0 z-[60] bg-black/70 items-center justify-center p-6">
+  <div onclick="event.stopImmediatePropagation()" class="modal-animate bg-slate-900 border border-white/10 w-full max-w-lg rounded-3xl p-8 shadow-2xl">
+    <div class="flex justify-between items-start mb-6">
+      <div>
+        <h3 class="font-semibold text-2xl tracking-tight">Private Acquisition Inquiry</h3>
+        <p class="text-sm text-slate-400 mt-1">The owner will respond within 24 hours.</p>
+      </div>
+      <button onclick="document.getElementById('inquiry-modal').classList.add('hidden')" class="text-slate-400 hover:text-white p-1 -mr-1">
+        <i class="fa-solid fa-times text-xl"></i>
+      </button>
+    </div>
+
+    <form id="inquiry-form" onsubmit="submitInquiry(event)">
+      <div class="space-y-4">
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="text-xs font-medium text-slate-400 block mb-1.5">Full Name</label>
+            <input type="text" id="name" required class="w-full bg-slate-950 border border-white/10 focus:border-cyan-400/60 rounded-2xl px-4 py-3 text-sm outline-none transition-colors" placeholder="Alex Rivera">
+          </div>
+          <div>
+            <label class="text-xs font-medium text-slate-400 block mb-1.5">Company / Organization</label>
+            <input type="text" id="company" class="w-full bg-slate-950 border border-white/10 focus:border-cyan-400/60 rounded-2xl px-4 py-3 text-sm outline-none transition-colors" placeholder="HVAC Insights LLC">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="text-xs font-medium text-slate-400 block mb-1.5">Email Address</label>
+            <input type="email" id="email" required class="w-full bg-slate-950 border border-white/10 focus:border-cyan-400/60 rounded-2xl px-4 py-3 text-sm outline-none transition-colors" placeholder="you@company.com">
+          </div>
+          <div>
+            <label class="text-xs font-medium text-slate-400 block mb-1.5">Phone / WhatsApp</label>
+            <input type="tel" id="phone" class="w-full bg-slate-950 border border-white/10 focus:border-cyan-400/60 rounded-2xl px-4 py-3 text-sm outline-none transition-colors" placeholder="+1 (555) 123-4567">
+          </div>
+        </div>
+
+        <div>
+          <label class="text-xs font-medium text-slate-400 block mb-1.5">Your Interest / Intended Use</label>
+          <select id="interest" class="w-full bg-slate-950 border border-white/10 focus:border-cyan-400/60 rounded-2xl px-4 py-3 text-sm outline-none">
+            <option value="">Select an option...</option>
+            <option value="Review & Comparison Platform">Review &amp; Comparison Platform</option>
+            <option value="Contractor / Lead Marketplace">Contractor / Lead Marketplace</option>
+            <option value="B2B Consultant Network">B2B Consultant &amp; Facility Network</option>
+            <option value="Brand / Corporate Acquisition">Brand or Corporate Acquisition</option>
+            <option value="Investment / Holding">Investment / Domain Portfolio</option>
+            <option value="Other">Other (please specify in message)</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="text-xs font-medium text-slate-400 block mb-1.5">Message / Offer Details</label>
+          <textarea id="message" rows="4" class="w-full bg-slate-950 border border-white/10 focus:border-cyan-400/60 rounded-3xl px-4 py-3 text-sm outline-none resize-y min-h-[100px]" placeholder="I'm interested in acquiring hvac.contact to build the leading HVAC review and contractor matching platform. Happy to discuss price and terms."></textarea>
+        </div>
+      </div>
+
+      <div class="mt-7 flex gap-x-3">
+        <button type="button" onclick="document.getElementById('inquiry-modal').classList.add('hidden')"
+                class="flex-1 py-3.5 rounded-2xl border border-white/20 text-sm font-medium hover:bg-white/5 transition-colors">Cancel</button>
+        <button type="submit"
+                class="flex-1 py-3.5 rounded-2xl bg-white text-slate-950 font-semibold text-sm active:scale-[0.985] transition-all">Submit Private Inquiry</button>
+      </div>
+    </form>
+
+    <p class="text-center text-[10px] text-slate-500 mt-5">Your information is kept strictly confidential. No public listings or data sharing.</p>
+  </div>
+</div>
+
+<script>
+  function submitInquiry(e) {
+    e.preventDefault();
+
+    const form = document.getElementById('inquiry-form');
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const originalText = submitBtn.innerHTML;
+
+    submitBtn.innerHTML = `<span class="flex items-center justify-center gap-x-2"><i class="fa-solid fa-spinner fa-spin"></i> Sending...</span>`;
+    submitBtn.disabled = true;
+
+    // Simulate processing + success
+    setTimeout(() => {
+      form.innerHTML = `
+        <div class="text-center py-8">
+          <div class="mx-auto w-16 h-16 rounded-full bg-emerald-400/10 flex items-center justify-center mb-5">
+            <i class="fa-solid fa-check text-4xl text-emerald-400"></i>
+          </div>
+          <h4 class="font-semibold text-2xl tracking-tight">Inquiry Received</h4>
+          <p class="mt-3 text-slate-400 max-w-xs mx-auto">Thank you. The owner of hvac.contact has been notified and will contact you directly within 24 hours to discuss next steps.</p>
+
+          <button onclick="document.getElementById('inquiry-modal').classList.add('hidden')"
+                  class="mt-8 px-8 py-2.5 text-sm rounded-2xl border border-white/20 hover:bg-white/5 font-medium transition-colors">
+            Close Window
+          </button>
+        </div>
+      `;
+    }, 1250);
+  }
+
+  // Keyboard escape for modal
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      const modal = document.getElementById('inquiry-modal');
+      if (modal && !modal.classList.contains('hidden')) {
+        modal.classList.add('hidden');
+      }
+    }
+  });
+</script>

@@ -1,0 +1,33 @@
+---
+interface ValueCard {
+  icon: string;
+  title: string;
+  body: string;
+}
+
+interface Props {
+  cards: ValueCard[];
+}
+
+const { cards } = Astro.props;
+---
+
+<section id="why" class="max-w-7xl mx-auto px-6 pt-20 pb-16">
+  <div class="text-center mb-14">
+    <div class="inline text-xs font-bold tracking-[2px] text-cyan-400 mb-3">THE STRATEGIC ADVANTAGE</div>
+    <h2 class="section-header tracking-tighter">Why hvac.contact is the<br>ultimate HVAC asset</h2>
+    <p class="mt-4 max-w-md mx-auto text-slate-400">A rare, exact-match premium domain in one of the world's largest and most essential industries.</p>
+  </div>
+
+  <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+    {cards.map((card) => (
+      <div class="value-card bg-slate-900 border border-white/10 rounded-3xl p-7 group">
+        <div class="w-12 h-12 rounded-2xl bg-cyan-400/10 flex items-center justify-center mb-6 group-hover:bg-cyan-400/20 transition-colors">
+          <i class={`fa-solid fa-${card.icon} text-3xl text-cyan-400`}></i>
+        </div>
+        <h3 class="font-semibold text-xl tracking-tight mb-3">{card.title}</h3>
+        <p class="text-slate-400 leading-relaxed">{card.body}</p>
+      </div>
+    ))}
+  </div>
+</section>

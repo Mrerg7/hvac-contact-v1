@@ -1,0 +1,78 @@
+---
+interface Term {
+  label: string;
+  detail: string;
+}
+
+interface Props {
+  price: string;
+  email: string;
+  terms: Term[];
+}
+
+const { price, email, terms } = Astro.props;
+---
+
+<section id="acquire" class="bg-slate-900 border-t border-white/10 py-20">
+  <div class="max-w-4xl mx-auto px-6">
+    <div class="text-center mb-10">
+      <div class="inline-flex items-center gap-x-2 px-5 py-1 rounded-full bg-white/5 text-xs font-bold tracking-[1.5px] mb-4">EXCLUSIVE OPPORTUNITY</div>
+      <h2 class="section-header tracking-tighter">Own the definitive<br>HVAC address today.</h2>
+    </div>
+
+    <!-- Pricing Card -->
+    <div class="max-w-2xl mx-auto bg-slate-950 border border-white/10 rounded-3xl p-9 md:p-12 shadow-2xl">
+      <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-y-2 mb-8">
+        <div>
+          <div class="uppercase text-xs tracking-[2px] text-cyan-400 font-semibold">Asking Price</div>
+          <div class="text-6xl font-display font-bold tracking-tighter">{price}</div>
+          <div class="text-sm text-slate-400">USD &bull; One-time acquisition</div>
+        </div>
+        <div class="text-right">
+          <div class="inline-block px-4 py-1 rounded-2xl bg-emerald-400/10 text-emerald-400 text-xs font-semibold">Premium positioning</div>
+        </div>
+      </div>
+
+      <div class="border-t border-white/10 pt-8">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6 text-sm">
+          {terms.map((term) => (
+            <div>
+              <div class="font-semibold mb-2 flex items-center gap-x-2">
+                <i class="fa-solid fa-check text-emerald-400"></i>
+                <span>{term.label}</span>
+              </div>
+              <div class="text-slate-400 text-xs pl-6">{term.detail}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div class="mt-9 pt-8 border-t border-white/10 flex flex-col sm:flex-row gap-4">
+        <button onclick="document.getElementById('inquiry-modal').classList.remove('hidden'); document.getElementById('inquiry-modal').classList.add('flex')"
+                class="flex-1 inline-flex justify-center items-center gap-x-3 px-8 py-4 rounded-3xl bg-white text-slate-950 hover:bg-cyan-300 font-semibold transition-all active:scale-[0.985]">
+          <span>Start Private Inquiry</span>
+        </button>
+
+        <a href={`mailto:${email}?subject=Inquiry%20for%20hvac.contact%20acquisition`}
+           class="flex-1 inline-flex justify-center items-center gap-x-2 px-8 py-4 rounded-3xl border border-white/20 hover:bg-white/5 font-medium transition-all active:scale-[0.985]">
+          <i class="fa-solid fa-envelope"></i>
+          <span>Email Owner Directly</span>
+        </a>
+      </div>
+
+      <p class="text-center text-[10px] text-slate-500 mt-6">Serious inquiries only. This is a high-value strategic asset — not a retail listing.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Final CTA -->
+<div class="max-w-4xl mx-auto px-6 py-16 text-center">
+  <p class="text-slate-400 max-w-md mx-auto">In a fragmented HVAC digital landscape, <span class="text-white font-medium">hvac.contact</span> stands alone as the clearest, most authoritative name available. The buyer who acquires it will own the starting line for the category's next defining platform.</p>
+
+  <div class="mt-8">
+    <a href="#acquire"
+       class="px-10 py-4 rounded-3xl bg-gradient-to-r from-cyan-400 to-teal-400 text-slate-950 font-semibold text-lg inline-flex items-center gap-x-3 active:scale-[0.985] transition-all shadow-lg shadow-cyan-400/30">
+      <span>Secure hvac.contact Now</span>
+    </a>
+  </div>
+</div>

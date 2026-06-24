@@ -1,0 +1,40 @@
+---
+interface VisionCard {
+  title: string;
+  body: string;
+  tag: string;
+}
+
+interface Props {
+  cards: VisionCard[];
+}
+
+const { cards } = Astro.props;
+---
+
+<section id="vision" class="max-w-7xl mx-auto px-6 pt-20 pb-16">
+  <div class="text-center mb-12">
+    <div class="inline text-xs font-bold tracking-[2px] text-cyan-400 mb-3">WHAT YOU CAN BUILD</div>
+    <h2 class="section-header tracking-tighter">The definitive HVAC platform<br>starts with this domain.</h2>
+    <p class="max-w-lg mx-auto mt-4 text-slate-400">hvac.contact is the perfect foundation for category-defining products in the HVAC space.</p>
+  </div>
+
+  <div class="grid md:grid-cols-3 gap-6">
+    {cards.map((card) => (
+      <div class="group bg-slate-900 border border-white/10 hover:border-cyan-400/30 transition-colors rounded-3xl p-8 flex flex-col">
+        <div class="mb-auto">
+          <div class="inline-flex items-center justify-center w-11 h-11 rounded-2xl bg-gradient-to-br from-cyan-400 to-teal-400 text-slate-950 mb-6">
+            <i class="fa-solid fa-star text-xl"></i>
+          </div>
+          <h4 class="font-semibold text-2xl tracking-tight mb-3">{card.title}</h4>
+          <p class="text-slate-400">{card.body}</p>
+        </div>
+        <div class="pt-6 mt-auto text-xs uppercase tracking-widest text-cyan-400 font-medium">{card.tag}</div>
+      </div>
+    ))}
+  </div>
+
+  <div class="mt-8 text-center text-xs text-slate-500 max-w-md mx-auto">
+    Any of these models (or a powerful combination) can be built on hvac.contact and scaled into a category-defining, high-value business.
+  </div>
+</section>

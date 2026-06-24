@@ -1,0 +1,50 @@
+---
+interface Metric {
+  value: string;
+  label: string;
+  detail: string;
+  source: string;
+}
+
+interface Props {
+  metrics: Metric[];
+}
+
+const { metrics } = Astro.props;
+---
+
+<section id="opportunity" class="bg-slate-900 border-y border-white/10 py-20">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="grid lg:grid-cols-12 gap-x-12 gap-y-12 items-center">
+      <div class="lg:col-span-5">
+        <div class="sticky top-24">
+          <div class="text-xs font-bold tracking-[2px] text-cyan-400 mb-3">MASSIVE MARKET</div>
+          <h2 class="section-header tracking-tighter leading-none mb-6">A $300+ billion<br>industry deserves<br>its definitive home.</h2>
+          <p class="text-slate-400 text-[15px] leading-relaxed">HVAC is one of the largest, most recession-resistant, and essential service sectors on Earth. The digital landscape is fragmented — until now.</p>
+
+          <div class="mt-8 flex items-center gap-x-4">
+            <a href="#acquire"
+               class="px-7 py-3 text-sm font-semibold rounded-2xl bg-white text-slate-950 hover:bg-cyan-300 active:scale-[0.985] transition-all flex items-center gap-x-2">
+              <span>Claim the Hub</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="lg:col-span-7">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+          {metrics.map((m) => (
+            <div class="bg-slate-950 border border-white/10 rounded-3xl p-7">
+              <div class="flex items-baseline gap-x-1">
+                <span class="metric text-white">{m.value}</span>
+              </div>
+              <div class="text-emerald-400 text-sm font-semibold tracking-wider mt-1">{m.label}</div>
+              <p class="mt-4 text-xs text-slate-400 leading-snug">{m.detail}</p>
+              <div class="text-[10px] text-slate-500 mt-5">{m.source}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
