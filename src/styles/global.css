@@ -21,7 +21,7 @@
 
 @layer components {
   .section-header {
-    @apply text-[2.75rem] leading-tight font-bold tracking-tight;
+    @apply text-[2rem] sm:text-[2.75rem] leading-tight font-bold tracking-tight;
   }
 
   .premium-gradient {
@@ -31,6 +31,7 @@
   .nav-scrolled {
     background-color: rgba(15, 23, 42, 0.95);
     backdrop-filter: blur(12px);
+    border-color: rgba(255, 255, 255, 0.1);
   }
 
   .value-card {

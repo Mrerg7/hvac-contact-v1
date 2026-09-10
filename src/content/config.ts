@@ -7,6 +7,7 @@ const siteCollection = defineCollection({
     price: z.string(),
     email: z.string(),
     heroImage: z.string(),
+    heroStreamUrl: z.string().url(),
     disclaimer: z.string(),
     trustPoints: z.array(z.string()),
     marketMetrics: z.array(z.object({

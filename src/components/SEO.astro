@@ -1,13 +1,15 @@
 ---
+import { getCanonicalUrl } from '../utils/seo';
+
 export interface Props {
   title?: string;
   description?: string;
   path?: string;
 }
 
-const canonicalPath = Astro.props.path ?? Astro.url.pathname;
-const domain = 'hvac.contact';
-const fullUrl = `https://${domain}${canonicalPath}`;
+const site = Astro.site ?? new URL('https://hvac.contact');
+const domain = site.hostname.replace(/^www\./, '');
+const fullUrl = getCanonicalUrl(site, Astro.props.path ?? Astro.url.pathname);
 
 const title = Astro.props.title ?? `${domain} | The Definitive HVAC Domain — Now Available`;
 const description = Astro.props.description ?? `${domain} — The definitive premium domain for the global HVAC industry. Perfect for reviews, consultant platforms, contractor marketplaces, and lead generation. Now available for acquisition.`;
@@ -16,6 +18,7 @@ const description = Astro.props.description ?? `${domain} — The definitive pre
 <!-- Primary Meta -->
 <title>{title}</title>
 <meta name="description" content={description}>
+<meta name="robots" content="index, follow, max-image-preview:large">
 <meta name="keywords" content="hvac.contact, HVAC domain for sale, premium HVAC domain, HVAC reviews site, HVAC consultant platform, HVAC marketplace domain">
 
 <!-- Canonical -->
@@ -42,16 +45,8 @@ const description = Astro.props.description ?? `${domain} — The definitive pre
   "@context": "https://schema.org",
   "@type": "WebSite",
   "name": "${domain}",
-  "url": "https://${domain}/",
-  "description": "${description}",
-  "potentialAction": {
-    "@type": "SearchAction",
-    "target": {
-      "@type": "EntryPoint",
-      "urlTemplate": "https://${domain}/search?q={search_term_string}"
-    },
-    "query-input": "required name=search_term_string"
-  }
+  "url": "${fullUrl}",
+  "description": ${JSON.stringify(description)}
 }`}>
 </script>
 
@@ -60,8 +55,8 @@ const description = Astro.props.description ?? `${domain} — The definitive pre
   "@context": "https://schema.org",
   "@type": "Organization",
   "name": "${domain}",
-  "url": "https://${domain}/",
-  "description": "${description}",
+  "url": "${fullUrl}",
+  "description": ${JSON.stringify(description)},
   "logo": "https://imagedelivery.net/-sPAUAWeA405NiWJ0SNIQA/335b1bdd-ec88-44ef-8d19-b87ae2d69700/public",
   "contactPoint": {
     "@type": "ContactPoint",

@@ -1,7 +1,19 @@
 name = "hvac-contact-v1"
+main = "src/worker.ts"
 compatibility_date = "2026-06-01"
 workers_dev = false
 preview_urls = false
 
+routes = [
+  { pattern = "hvac.contact", custom_domain = true },
+  { pattern = "www.hvac.contact", custom_domain = true }
+]
+
 [assets]
 directory = "./dist"
+binding = "ASSETS"
+# Required so http/www redirects in the Worker run before static assets are served.
+# Without this, matching assets short-circuit the Worker and http/www return 200 with a
+# canonical pointing at https://hvac.contact/ — GSC "Alternate page with proper canonical tag".
+run_worker_first = true
+html_handling = "force-trailing-slash"
