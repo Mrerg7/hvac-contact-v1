@@ -12,8 +12,9 @@ routes = [
 [assets]
 directory = "./dist"
 binding = "ASSETS"
-# Required so http/www redirects in the Worker run before static assets are served.
-# Without this, matching assets short-circuit the Worker and http/www return 200 with a
-# canonical pointing at https://hvac.contact/ — GSC "Alternate page with proper canonical tag".
+# Required so http/www/index.html redirects in the Worker run before static assets
+# are served. Without this, matching assets short-circuit the Worker and the
+# http/www/index.html variants return 200 with a canonical pointing at apex —
+# GSC "Page with redirect".
 run_worker_first = true
 html_handling = "force-trailing-slash"

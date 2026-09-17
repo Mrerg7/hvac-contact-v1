@@ -4,6 +4,10 @@ interface Env {
 
 const CANONICAL_HOST = 'hvac.contact';
 
+// Normalize every request to a single canonical URL (https://hvac.contact/).
+// http/www/index.html variants 301 here so they are never served with a
+// duplicate 200 + canonical — GSC reports those as "Page with redirect".
+// Trailing slashes are handled by `html_handling = "force-trailing-slash"`.
 function toCanonicalUrl(requestUrl: URL): URL {
   const target = new URL(requestUrl.href);
   target.protocol = 'https:';
@@ -12,12 +16,6 @@ function toCanonicalUrl(requestUrl: URL): URL {
 
   if (target.pathname === '/index.html' || target.pathname === '/index.htm') {
     target.pathname = '/';
-  } else if (
-    target.pathname !== '/' &&
-    !target.pathname.endsWith('/') &&
-    !/\.\w+$/.test(target.pathname)
-  ) {
-    target.pathname += '/';
   }
 
   return target;
