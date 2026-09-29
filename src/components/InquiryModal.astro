@@ -211,14 +211,36 @@ const { salesEmail = 'sales@desertrich.com' } = Astro.props;
       `;
       form.querySelector('[data-close-inquiry]')?.addEventListener('click', closeInquiry);
     } catch (err) {
-      if (errorEl) {
-        errorEl.textContent = err?.message || 'Something went wrong. Please email sales@desertrich.com.';
-        errorEl.classList.remove('hidden');
-      }
-      if (submitBtn) {
-        submitBtn.innerHTML = originalText;
-        submitBtn.disabled = false;
-      }
+      // Static preview / API unavailable — still hand off via mailto
+      const subject = encodeURIComponent(`hvac.contact inquiry — ${payload.name}`);
+      const body = encodeURIComponent(
+        [
+          `Name: ${payload.name}`,
+          `Email: ${payload.email}`,
+          payload.company ? `Company: ${payload.company}` : null,
+          payload.phone ? `Phone: ${payload.phone}` : null,
+          payload.interest ? `Interest: ${payload.interest}` : null,
+          `Source: ${payload.source}`,
+          '',
+          payload.message || '(no message provided)',
+        ].filter(Boolean).join('\n'),
+      );
+      window.location.href = `mailto:sales@desertrich.com?subject=${subject}&body=${body}`;
+
+      form.innerHTML = `
+        <div class="text-center py-8">
+          <div class="mx-auto w-16 h-16 rounded-full bg-emerald-400/10 flex items-center justify-center mb-5">
+            <i class="fa-solid fa-check text-4xl text-emerald-400" aria-hidden="true"></i>
+          </div>
+          <h4 class="font-semibold text-2xl tracking-tight">Inquiry Ready</h4>
+          <p class="mt-3 text-slate-400 max-w-xs mx-auto">Opening your email client to sales@desertrich.com. If nothing opens, message that address directly.</p>
+          <button type="button" data-close-inquiry
+                  class="mt-8 px-8 py-2.5 text-sm rounded-2xl border border-white/20 hover:bg-white/5 font-medium transition-colors tap-target">
+            Close Window
+          </button>
+        </div>
+      `;
+      form.querySelector('[data-close-inquiry]')?.addEventListener('click', closeInquiry);
     }
   });
 </script>
