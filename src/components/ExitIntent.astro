@@ -1,0 +1,114 @@
+---
+/** Exit-intent capture — opens once per session with a serious-buyer CTA. */
+---
+
+<div id="exit-intent"
+     class="hidden fixed inset-0 z-[70] bg-black/75 items-center justify-center p-6"
+     role="dialog"
+     aria-modal="true"
+     aria-labelledby="exit-intent-title">
+  <div class="modal-animate w-full max-w-md rounded-3xl border border-white/10 bg-slate-900 p-8 shadow-2xl">
+    <div class="flex justify-between items-start gap-4 mb-5">
+      <div>
+        <p class="text-xs font-bold tracking-[2px] text-cyan-400 uppercase mb-2">Before you go</p>
+        <h3 id="exit-intent-title" class="text-2xl font-semibold tracking-tight">
+          Get the private acquisition brief
+        </h3>
+      </div>
+      <button type="button" id="exit-intent-close" class="tap-target text-slate-400 hover:text-white p-2" aria-label="Close">
+        <i class="fa-solid fa-times text-xl" aria-hidden="true"></i>
+      </button>
+    </div>
+
+    <p class="text-sm text-slate-400 mb-6">
+      Leave your email for comps, escrow options, and preferred closing terms for <span class="text-white font-medium">hvac.contact</span>. No spam — serious buyers only.
+    </p>
+
+    <form id="exit-intent-form" class="space-y-3">
+      <label for="exit-email" class="sr-only">Email</label>
+      <input id="exit-email" type="email" required autocomplete="email"
+             class="w-full bg-slate-950 border border-white/10 focus:border-cyan-400/60 rounded-2xl px-4 py-3 text-base outline-none"
+             placeholder="you@company.com">
+      <button type="submit"
+              class="tap-target w-full py-3.5 rounded-2xl bg-cyan-400 text-slate-950 font-semibold hover:bg-white transition-colors">
+        Send me the brief
+      </button>
+    </form>
+
+    <button type="button" id="exit-intent-offer"
+            class="mt-4 w-full text-sm text-slate-400 hover:text-white transition-colors tap-target py-2">
+      Prefer to make an offer now →
+    </button>
+  </div>
+</div>
+
+<script>
+  const KEY = 'hvac_exit_intent_seen';
+  const panel = document.getElementById('exit-intent');
+  const closeBtn = document.getElementById('exit-intent-close');
+  const form = document.getElementById('exit-intent-form');
+  const offerBtn = document.getElementById('exit-intent-offer');
+
+  function markSeen() {
+    try { sessionStorage.setItem(KEY, '1'); } catch {}
+  }
+
+  function openExit() {
+    if (!panel || sessionStorage.getItem(KEY)) return;
+    panel.classList.remove('hidden');
+    panel.classList.add('flex');
+    markSeen();
+  }
+
+  function closeExit() {
+    panel?.classList.add('hidden');
+    panel?.classList.remove('flex');
+  }
+
+  closeBtn?.addEventListener('click', closeExit);
+  panel?.addEventListener('click', (e) => {
+    if (e.target === panel) closeExit();
+  });
+
+  offerBtn?.addEventListener('click', () => {
+    closeExit();
+    if (typeof window.openInquiryModal === 'function') {
+      window.openInquiryModal('exit-intent-offer', 'Make Offer');
+    }
+  });
+
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const email = document.getElementById('exit-email')?.value || '';
+    closeExit();
+    if (typeof window.openInquiryModal === 'function') {
+      window.openInquiryModal('exit-intent-brief', 'Make Offer');
+      const emailField = document.getElementById('email');
+      if (emailField) emailField.value = email;
+      const msg = document.getElementById('message');
+      if (msg && !msg.value) {
+        msg.value = 'Please send the private acquisition brief for hvac.contact (comps, escrow, closing terms).';
+      }
+    }
+  });
+
+  // Desktop exit intent
+  document.addEventListener('mouseout', (e) => {
+    if (e.clientY <= 0) openExit();
+  });
+
+  // Mobile: after meaningful scroll engagement, offer once on idle back-nav feel
+  let scrolled = false;
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > window.innerHeight * 0.6) scrolled = true;
+  }, { passive: true });
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'hidden' && scrolled) openExit();
+  });
+
+  // Soft delay fallback for engaged visitors who never hit edges
+  setTimeout(() => {
+    if (scrolled) openExit();
+  }, 45000);
+</script>

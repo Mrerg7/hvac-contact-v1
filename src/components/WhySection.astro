@@ -21,7 +21,7 @@ const { cards } = Astro.props;
 
   <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
     {cards.map((card) => (
-      <div class="value-card bg-slate-900 border border-white/10 rounded-3xl p-7 group">
+      <div class="value-card reveal bg-slate-900 border border-white/10 rounded-3xl p-7 group">
         <div class="w-12 h-12 rounded-2xl bg-cyan-400/10 flex items-center justify-center mb-6 group-hover:bg-cyan-400/20 transition-colors">
           <i class={`fa-solid fa-${card.icon} text-3xl text-cyan-400`}></i>
         </div>
@@ -31,3 +31,12 @@ const { cards } = Astro.props;
     ))}
   </div>
 </section>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) entry.target.classList.add('is-visible');
+    });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('#why .reveal').forEach((el) => observer.observe(el));
+</script>

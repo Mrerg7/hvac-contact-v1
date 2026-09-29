@@ -1,31 +1,39 @@
 <nav id="nav" class="fixed top-0 left-0 right-0 z-50 border-b border-transparent transition-all duration-300">
   <div class="max-w-7xl mx-auto px-6">
     <div class="flex items-center justify-between h-20">
-      <!-- Logo -->
-      <div class="flex items-center gap-x-3">
+      <a href="/" class="flex items-center gap-x-1 tap-target" aria-label="hvac.contact home">
         <span class="font-display text-2xl font-semibold tracking-tighter">hvac</span>
         <span class="font-display text-2xl font-semibold tracking-tighter text-cyan-400">.contact</span>
-      </div>
+      </a>
 
-      <!-- Desktop Menu -->
       <div class="hidden md:flex items-center gap-x-9 text-sm font-medium">
         <a href="#why" class="nav-link text-slate-300 hover:text-white">Why This Domain</a>
         <a href="#opportunity" class="nav-link text-slate-300 hover:text-white">The Opportunity</a>
         <a href="#vision" class="nav-link text-slate-300 hover:text-white">The Vision</a>
+        <a href="/insights/" class="nav-link text-slate-300 hover:text-white">Insights</a>
         <a href="#acquire" class="nav-link text-slate-300 hover:text-white">Acquire</a>
       </div>
 
-      <div class="flex items-center gap-x-4">
-        <!-- Mobile menu button -->
-        <button id="mobile-menu-btn"
-                class="md:hidden w-10 h-10 flex items-center justify-center text-slate-400 hover:text-white transition-colors"
-                aria-label="Toggle menu">
-          <i class="fa-solid fa-bars text-xl"></i>
+      <div class="flex items-center gap-x-3">
+        <button id="theme-toggle"
+                type="button"
+                class="tap-target w-12 h-12 flex items-center justify-center rounded-2xl border border-white/10 text-slate-300 hover:text-white hover:bg-white/5 transition-colors"
+                aria-label="Toggle light and dark mode"
+                title="Toggle theme">
+          <i class="fa-solid fa-moon text-base" aria-hidden="true"></i>
         </button>
 
-        <!-- CTA Button -->
+        <button id="mobile-menu-btn"
+                type="button"
+                class="md:hidden tap-target w-12 h-12 flex items-center justify-center text-slate-300 hover:text-white transition-colors"
+                aria-label="Toggle menu"
+                aria-expanded="false"
+                aria-controls="mobile-menu">
+          <i class="fa-solid fa-bars text-xl" aria-hidden="true"></i>
+        </button>
+
         <a href="#acquire"
-           class="hidden md:flex items-center gap-x-2 px-6 py-2.5 rounded-2xl bg-white text-slate-950 hover:bg-cyan-400 hover:text-slate-950 transition-all font-semibold text-sm shadow-lg shadow-white/10 active:scale-[0.985]">
+           class="hidden md:inline-flex tap-target items-center gap-x-2 px-6 py-3 rounded-2xl bg-white text-slate-950 hover:bg-cyan-400 transition-all font-semibold text-sm shadow-lg shadow-white/10 active:scale-[0.985]">
           <span>Acquire Now</span>
         </a>
       </div>
@@ -33,17 +41,17 @@
   </div>
 </nav>
 
-<!-- Mobile Menu -->
-<div id="mobile-menu" class="hidden md:hidden fixed inset-0 z-40 bg-slate-950/95 pt-20 px-6">
+<div id="mobile-menu" class="hidden md:hidden fixed inset-0 z-40 bg-slate-950/95 pt-20 px-6" role="dialog" aria-modal="true" aria-label="Mobile navigation">
   <div class="flex flex-col gap-y-1 text-lg font-medium pt-8">
-    <a href="#why" class="mobile-nav-link py-4 border-b border-white/10 text-slate-300">Why This Domain</a>
-    <a href="#opportunity" class="mobile-nav-link py-4 border-b border-white/10 text-slate-300">The Opportunity</a>
-    <a href="#vision" class="mobile-nav-link py-4 border-b border-white/10 text-slate-300">The Vision</a>
-    <a href="#acquire" class="mobile-nav-link py-4 border-b border-white/10 text-slate-300">Acquire</a>
+    <a href="#why" class="mobile-nav-link py-4 min-h-12 border-b border-white/10 text-slate-300">Why This Domain</a>
+    <a href="#opportunity" class="mobile-nav-link py-4 min-h-12 border-b border-white/10 text-slate-300">The Opportunity</a>
+    <a href="#vision" class="mobile-nav-link py-4 min-h-12 border-b border-white/10 text-slate-300">The Vision</a>
+    <a href="/insights/" class="mobile-nav-link py-4 min-h-12 border-b border-white/10 text-slate-300">Insights</a>
+    <a href="#acquire" class="mobile-nav-link py-4 min-h-12 border-b border-white/10 text-slate-300">Acquire</a>
 
     <div class="pt-8">
       <a href="#acquire"
-         class="w-full flex items-center justify-center gap-x-2 px-6 py-3.5 rounded-3xl bg-white text-slate-950 font-semibold text-base active:scale-[0.985]">
+         class="w-full tap-target flex items-center justify-center gap-x-2 px-6 py-3.5 rounded-3xl bg-white text-slate-950 font-semibold text-base active:scale-[0.985]">
         Acquire hvac.contact
       </a>
     </div>
@@ -51,40 +59,73 @@
 </div>
 
 <script>
-  // Navbar scroll effect
   const nav = document.getElementById('nav');
+  const btn = document.getElementById('mobile-menu-btn');
+  const menu = document.getElementById('mobile-menu');
+  const themeToggle = document.getElementById('theme-toggle');
+  const root = document.documentElement;
+
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme === 'light') {
+    root.setAttribute('data-theme', 'light');
+  }
+
+  function syncThemeIcon() {
+    if (!themeToggle) return;
+    const light = root.getAttribute('data-theme') === 'light';
+    themeToggle.innerHTML = light
+      ? '<i class="fa-solid fa-sun text-base" aria-hidden="true"></i>'
+      : '<i class="fa-solid fa-moon text-base" aria-hidden="true"></i>';
+  }
+  syncThemeIcon();
+
+  themeToggle?.addEventListener('click', () => {
+    const next = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+    if (next === 'light') {
+      root.setAttribute('data-theme', 'light');
+      localStorage.setItem('theme', 'light');
+    } else {
+      root.removeAttribute('data-theme');
+      localStorage.setItem('theme', 'dark');
+    }
+    syncThemeIcon();
+  });
+
   window.addEventListener('scroll', () => {
+    if (!nav) return;
     if (window.scrollY > 20) {
       nav.classList.add('nav-scrolled', 'shadow-xl');
     } else {
       nav.classList.remove('nav-scrolled', 'shadow-xl');
     }
-  });
+  }, { passive: true });
 
-  // Mobile menu
-  const btn = document.getElementById('mobile-menu-btn');
-  const menu = document.getElementById('mobile-menu');
+  function closeMenu() {
+    menu?.classList.add('hidden');
+    btn?.setAttribute('aria-expanded', 'false');
+    if (btn) btn.innerHTML = '<i class="fa-solid fa-bars text-xl" aria-hidden="true"></i>';
+  }
+
+  function openMenu() {
+    menu?.classList.remove('hidden');
+    btn?.setAttribute('aria-expanded', 'true');
+    if (btn) btn.innerHTML = '<i class="fa-solid fa-times text-xl" aria-hidden="true"></i>';
+  }
+
   btn?.addEventListener('click', () => {
-    if (menu.classList.contains('hidden')) {
-      menu.classList.remove('hidden');
-      btn.innerHTML = '<i class="fa-solid fa-times text-xl"></i>';
-    } else {
-      menu.classList.add('hidden');
-      btn.innerHTML = '<i class="fa-solid fa-bars text-xl"></i>';
-    }
+    if (menu?.classList.contains('hidden')) openMenu();
+    else closeMenu();
   });
 
-  document.querySelectorAll('.mobile-nav-link').forEach(link => {
-    link.addEventListener('click', () => {
-      menu.classList.add('hidden');
-      btn.innerHTML = '<i class="fa-solid fa-bars text-xl"></i>';
-    });
+  document.querySelectorAll('.mobile-nav-link').forEach((link) => {
+    link.addEventListener('click', () => closeMenu());
   });
 
-  // Smooth scroll for nav anchors
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function(e) {
-      const target = document.querySelector(this.getAttribute('href'));
+  document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+    anchor.addEventListener('click', function (e) {
+      const href = this.getAttribute('href');
+      if (!href || href === '#') return;
+      const target = document.querySelector(href);
       if (target) {
         e.preventDefault();
         target.scrollIntoView({ behavior: 'smooth', block: 'start' });

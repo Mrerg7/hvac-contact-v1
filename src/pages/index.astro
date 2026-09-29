@@ -8,16 +8,25 @@ import OpportunitySection from '../components/OpportunitySection.astro';
 import VisionSection from '../components/VisionSection.astro';
 import AcquireSection from '../components/AcquireSection.astro';
 import InquiryModal from '../components/InquiryModal.astro';
+import ExitIntent from '../components/ExitIntent.astro';
 import Footer from '../components/Footer.astro';
+import { parsePriceNumeric } from '../utils/seo';
 
 const site = await getEntry('site', 'default');
 const data = site!.data;
+const priceNumeric = parsePriceNumeric(data.price);
+const pageTitle = `${data.domain} | Premium Domain for Sale | Desert Rich`;
+const pageDescription = `${data.domain} is available for acquisition at ${data.price} USD. Exact-match premium HVAC domain for reviews, contractor marketplaces, and lead platforms. Secure escrow. Inquire today.`;
 ---
 
-<BaseLayout title={`${data.domain} | The Definitive HVAC Domain — Now Available`}
-             description={`${data.domain} — The definitive premium domain for the global HVAC industry. Perfect for reviews, consultant platforms, contractor marketplaces, and lead generation. Now available for acquisition.`}>
+<BaseLayout
+  title={pageTitle}
+  description={pageDescription}
+  price={data.price}
+  priceNumeric={priceNumeric}
+>
   <Nav />
-  <main>
+  <main id="main">
     <HeroSection
       domain={data.domain}
       heroImage={data.heroImage}
@@ -37,6 +46,9 @@ const data = site!.data;
   <Footer
     disclaimer={data.disclaimer}
     footerLinks={data.footerLinks}
+    price={data.price}
+    email={data.email}
   />
-  <InquiryModal />
+  <InquiryModal salesEmail={data.email} />
+  <ExitIntent />
 </BaseLayout>

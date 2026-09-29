@@ -1,0 +1,91 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import { getEntry } from 'astro:content';
+import { parsePriceNumeric } from '../../utils/seo';
+
+export function getStaticPaths() {
+  return [
+    { params: { slug: 'why-exact-match-hvac-domains-win' } },
+    { params: { slug: 'valuing-premium-service-domains' } },
+    { params: { slug: 'hvac-marketplace-domain-case-study' } },
+  ];
+}
+
+const site = await getEntry('site', 'default');
+const data = site!.data;
+const priceNumeric = parsePriceNumeric(data.price);
+const { slug } = Astro.params;
+
+const posts: Record<string, { title: string; description: string; date: string; body: string[] }> = {
+  'why-exact-match-hvac-domains-win': {
+    title: 'Why Exact-Match HVAC Domains Win Category Authority',
+    description: 'Exact-match premium domains convert trust and search intent faster than invented brands in HVAC and home services.',
+    date: '2026-09-15',
+    body: [
+      'In home services, buyers type industry words — HVAC, plumber, roofing — into browsers and search bars. An exact-match domain captures that intent without paid education.',
+      'hvac.contact pairs the universal industry acronym with a TLD that signals connection and consultation. That combination supports review hubs, quote engines, and contractor marketplaces.',
+      'Category domains also compound brand equity: every press mention, partner link, and customer referral reinforces the same memorable string. Invented brands spend years catching up.',
+      'For operators evaluating premium domain names as investment domains, exact-match vertical assets remain scarce — especially short, spellable names with commercial intent.',
+    ],
+  },
+  'valuing-premium-service-domains': {
+    title: 'Valuing Premium Service Domains in 2026',
+    description: 'A practical valuation lens for premium service-industry domains using market size, CPC intensity, and platform optionality.',
+    date: '2026-09-22',
+    body: [
+      'Premium domain valuation is not retail aftermarket pricing. Strategic buyers underwrite cash-flow optionality: organic traffic, brand moat, and platform expansion.',
+      'HVAC sits inside a $280B+ global equipment and services market with high CPC keywords. Domains that own the category name inherit that commercial intensity.',
+      'Comparable sales, escrow-ready transfer, and clear title matter as much as the string. Serious acquisitions use Escrow.com or DAN.com and close in days, not months.',
+      'hvac.contact is positioned as a one-time strategic acquisition — not a leased landing page — for buyers building the next category-defining HVAC platform.',
+    ],
+  },
+  'hvac-marketplace-domain-case-study': {
+    title: 'Case Study: Building a Contractor Marketplace on a Category Domain',
+    description: 'How a category domain can anchor an HVAC contractor marketplace, review hub, or B2B consultant network.',
+    date: '2026-09-29',
+    body: [
+      'Imagine launching a contractor matching product where the URL itself answers “who do I contact for HVAC?” That is the product-market fit of hvac.contact.',
+      'A review and comparison hub can rank for equipment and installer queries while monetizing through affiliate, advertising, and premium listings.',
+      'A lead marketplace can sell vetted jobs to contractors with subscription tiers — powered by a domain that already communicates trust.',
+      'Whether you buy .contact domains for a single flagship or assemble a portfolio of investment domains, the HVAC vertical rewards clarity and authority over clever inventiveness.',
+    ],
+  },
+};
+
+const post = posts[slug!];
+---
+
+<BaseLayout
+  path={`/insights/${slug}/`}
+  title={`${post.title} | Premium Domain for Sale | ${data.domain}`}
+  description={post.description}
+  price={data.price}
+  priceNumeric={priceNumeric}
+>
+  <Nav />
+  <main id="main" class="pt-28 pb-20">
+    <article class="max-w-3xl mx-auto px-6">
+      <p class="text-xs text-slate-500 mb-3">
+        <a href="/insights/" class="hover:text-cyan-400">Insights</a>
+        <span class="mx-2 text-white/20">/</span>
+        <time datetime={post.date}>{post.date}</time>
+      </p>
+      <h1 class="section-header tracking-tighter mb-8">{post.title}</h1>
+      <div class="space-y-5 text-slate-300 leading-relaxed text-base sm:text-lg">
+        {post.body.map((paragraph) => <p>{paragraph}</p>)}
+      </div>
+
+      <div class="mt-12 rounded-3xl border border-white/10 bg-slate-900 p-8">
+        <h2 class="text-xl font-semibold tracking-tight mb-2">{data.domain} is available</h2>
+        <p class="text-slate-400 text-sm mb-5">Asking {data.price} USD · Secure escrow · Private inquiry</p>
+        <div class="flex flex-col sm:flex-row gap-3">
+          <a href="/#acquire" class="tap-target inline-flex justify-center items-center px-6 py-3 rounded-2xl bg-cyan-400 text-slate-950 font-semibold">Buy Now</a>
+          <a href={`mailto:${data.email}?subject=Inquiry%20for%20hvac.contact`} class="tap-target inline-flex justify-center items-center px-6 py-3 rounded-2xl border border-white/15 font-medium">Contact Agent</a>
+        </div>
+      </div>
+    </article>
+  </main>
+  <Footer disclaimer={data.disclaimer} footerLinks={data.footerLinks} price={data.price} email={data.email} />
+</BaseLayout>

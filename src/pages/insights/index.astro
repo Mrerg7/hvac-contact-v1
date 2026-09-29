@@ -1,0 +1,84 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import { getEntry } from 'astro:content';
+import { parsePriceNumeric } from '../../utils/seo';
+
+const site = await getEntry('site', 'default');
+const data = site!.data;
+const priceNumeric = parsePriceNumeric(data.price);
+
+const articles = [
+  {
+    slug: 'why-exact-match-hvac-domains-win',
+    title: 'Why Exact-Match HVAC Domains Win Category Authority',
+    summary: 'How premium, industry-exact domains outperform invented brands for organic traffic, trust, and lead conversion in home services.',
+    date: '2026-09-15',
+  },
+  {
+    slug: 'valuing-premium-service-domains',
+    title: 'Valuing Premium Service Domains in 2026',
+    summary: 'A practical framework for pricing investment-grade vertical domains using market size, CPC intensity, and platform optionality.',
+    date: '2026-09-22',
+  },
+  {
+    slug: 'hvac-marketplace-domain-case-study',
+    title: 'Case Study: Building a Contractor Marketplace on a Category Domain',
+    summary: 'What a review-and-quote platform can look like when the namespace itself does the positioning work.',
+    date: '2026-09-29',
+  },
+];
+---
+
+<BaseLayout
+  path="/insights/"
+  title={`HVAC Domain Insights | Premium Domain for Sale | ${data.domain}`}
+  description={`Guides on premium HVAC domain strategy, valuation, and marketplace builds. Learn why ${data.domain} is a category-defining digital asset — available at ${data.price}.`}
+  price={data.price}
+  priceNumeric={priceNumeric}
+>
+  <Nav />
+  <main id="main" class="pt-28 pb-20">
+    <section class="max-w-3xl mx-auto px-6">
+      <p class="text-xs font-bold tracking-[2px] text-cyan-400 uppercase mb-3">Insights</p>
+      <h1 class="section-header tracking-tighter mb-4">Domain valuation, market trends &amp; HVAC platform playbooks</h1>
+      <p class="text-slate-400 text-base sm:text-lg mb-12 max-w-2xl">
+        Content for founders, investors, and operators evaluating premium domains in the HVAC category — including why <a href="/" class="text-cyan-400 hover:text-cyan-300">{data.domain}</a> is a rare exact-match asset.
+      </p>
+
+      <div class="space-y-6">
+        {articles.map((article) => (
+          <article class="reveal border border-white/10 rounded-3xl bg-slate-900/60 p-7 hover:border-cyan-400/30 transition-colors">
+            <time class="text-xs text-slate-500" datetime={article.date}>{article.date}</time>
+            <h2 class="mt-2 text-xl sm:text-2xl font-semibold tracking-tight">
+              <a href={`/insights/${article.slug}/`} class="hover:text-cyan-300 transition-colors">{article.title}</a>
+            </h2>
+            <p class="mt-3 text-slate-400 text-sm sm:text-base leading-relaxed">{article.summary}</p>
+            <a href={`/insights/${article.slug}/`} class="inline-flex items-center gap-2 mt-5 text-sm font-medium text-cyan-400 hover:text-cyan-300">
+              Read article <i class="fa-solid fa-arrow-right text-xs" aria-hidden="true"></i>
+            </a>
+          </article>
+        ))}
+      </div>
+
+      <div class="mt-14 rounded-3xl border border-cyan-400/20 bg-cyan-400/5 p-8 text-center">
+        <h2 class="text-2xl font-display font-bold tracking-tight mb-3">Ready to acquire {data.domain}?</h2>
+        <p class="text-slate-400 text-sm mb-6">Asking price {data.price} USD · Escrow available · Private inquiry</p>
+        <a href="/#acquire" class="tap-target inline-flex items-center justify-center px-8 py-3.5 rounded-3xl bg-cyan-400 text-slate-950 font-semibold hover:bg-white transition-colors">
+          View acquisition terms
+        </a>
+      </div>
+    </section>
+  </main>
+  <Footer disclaimer={data.disclaimer} footerLinks={data.footerLinks} price={data.price} email={data.email} />
+</BaseLayout>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) entry.target.classList.add('is-visible');
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+</script>

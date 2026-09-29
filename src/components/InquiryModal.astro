@@ -1,43 +1,70 @@
-<div id="inquiry-modal" onclick="if (event.target.id === 'inquiry-modal') document.getElementById('inquiry-modal').classList.add('hidden')" class="hidden fixed inset-0 z-[60] bg-black/70 items-center justify-center p-6">
-  <div onclick="event.stopImmediatePropagation()" class="modal-animate bg-slate-900 border border-white/10 w-full max-w-lg rounded-3xl p-8 shadow-2xl">
+---
+interface Props {
+  salesEmail?: string;
+}
+
+const { salesEmail = 'sales@desertrich.com' } = Astro.props;
+---
+
+<div id="inquiry-modal"
+     class="hidden fixed inset-0 z-[60] bg-black/70 items-center justify-center p-6"
+     role="dialog"
+     aria-modal="true"
+     aria-labelledby="inquiry-title">
+  <div class="modal-animate bg-slate-900 border border-white/10 w-full max-w-lg rounded-3xl p-8 shadow-2xl max-h-[90svh] overflow-y-auto">
     <div class="flex justify-between items-start mb-6">
       <div>
-        <h3 class="font-semibold text-2xl tracking-tight">Private Acquisition Inquiry</h3>
+        <h3 id="inquiry-title" class="font-semibold text-2xl tracking-tight">Private Acquisition Inquiry</h3>
         <p class="text-sm text-slate-400 mt-1">The owner will respond within 24 hours.</p>
       </div>
-      <button onclick="document.getElementById('inquiry-modal').classList.add('hidden')" class="text-slate-400 hover:text-white p-1 -mr-1">
-        <i class="fa-solid fa-times text-xl"></i>
+      <button type="button"
+              data-close-inquiry
+              class="tap-target text-slate-400 hover:text-white p-2 -mr-1"
+              aria-label="Close inquiry form">
+        <i class="fa-solid fa-times text-xl" aria-hidden="true"></i>
       </button>
     </div>
 
-    <form id="inquiry-form" onsubmit="submitInquiry(event)">
+    <form id="inquiry-form">
+      <input type="hidden" id="inquiry-source" name="source" value="inquiry-modal">
       <div class="space-y-4">
-        <div class="grid grid-cols-2 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label class="text-xs font-medium text-slate-400 block mb-1.5">Full Name</label>
-            <input type="text" id="name" required class="w-full bg-slate-950 border border-white/10 focus:border-cyan-400/60 rounded-2xl px-4 py-3 text-sm outline-none transition-colors" placeholder="Alex Rivera">
+            <label for="name" class="text-xs font-medium text-slate-400 block mb-1.5">Full Name</label>
+            <input type="text" id="name" name="name" required autocomplete="name"
+                   class="w-full bg-slate-950 border border-white/10 focus:border-cyan-400/60 rounded-2xl px-4 py-3 text-base outline-none transition-colors"
+                   placeholder="Alex Rivera">
           </div>
           <div>
-            <label class="text-xs font-medium text-slate-400 block mb-1.5">Company / Organization</label>
-            <input type="text" id="company" class="w-full bg-slate-950 border border-white/10 focus:border-cyan-400/60 rounded-2xl px-4 py-3 text-sm outline-none transition-colors" placeholder="HVAC Insights LLC">
+            <label for="company" class="text-xs font-medium text-slate-400 block mb-1.5">Company / Organization</label>
+            <input type="text" id="company" name="company" autocomplete="organization"
+                   class="w-full bg-slate-950 border border-white/10 focus:border-cyan-400/60 rounded-2xl px-4 py-3 text-base outline-none transition-colors"
+                   placeholder="HVAC Insights LLC">
           </div>
         </div>
 
-        <div class="grid grid-cols-2 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label class="text-xs font-medium text-slate-400 block mb-1.5">Email Address</label>
-            <input type="email" id="email" required class="w-full bg-slate-950 border border-white/10 focus:border-cyan-400/60 rounded-2xl px-4 py-3 text-sm outline-none transition-colors" placeholder="you@company.com">
+            <label for="email" class="text-xs font-medium text-slate-400 block mb-1.5">Email Address</label>
+            <input type="email" id="email" name="email" required autocomplete="email"
+                   class="w-full bg-slate-950 border border-white/10 focus:border-cyan-400/60 rounded-2xl px-4 py-3 text-base outline-none transition-colors"
+                   placeholder="you@company.com">
           </div>
           <div>
-            <label class="text-xs font-medium text-slate-400 block mb-1.5">Phone / WhatsApp</label>
-            <input type="tel" id="phone" class="w-full bg-slate-950 border border-white/10 focus:border-cyan-400/60 rounded-2xl px-4 py-3 text-sm outline-none transition-colors" placeholder="+1 (555) 123-4567">
+            <label for="phone" class="text-xs font-medium text-slate-400 block mb-1.5">Phone / WhatsApp</label>
+            <input type="tel" id="phone" name="phone" autocomplete="tel"
+                   class="w-full bg-slate-950 border border-white/10 focus:border-cyan-400/60 rounded-2xl px-4 py-3 text-base outline-none transition-colors"
+                   placeholder="+1 (555) 123-4567">
           </div>
         </div>
 
         <div>
-          <label class="text-xs font-medium text-slate-400 block mb-1.5">Your Interest / Intended Use</label>
-          <select id="interest" class="w-full bg-slate-950 border border-white/10 focus:border-cyan-400/60 rounded-2xl px-4 py-3 text-sm outline-none">
+          <label for="interest" class="text-xs font-medium text-slate-400 block mb-1.5">Your Interest / Intended Use</label>
+          <select id="interest" name="interest"
+                  class="w-full bg-slate-950 border border-white/10 focus:border-cyan-400/60 rounded-2xl px-4 py-3 text-base outline-none">
             <option value="">Select an option...</option>
+            <option value="Buy Now — full asking price">Buy Now — full asking price</option>
+            <option value="Make Offer">Make Offer</option>
             <option value="Review & Comparison Platform">Review &amp; Comparison Platform</option>
             <option value="Contractor / Lead Marketplace">Contractor / Lead Marketplace</option>
             <option value="B2B Consultant Network">B2B Consultant &amp; Facility Network</option>
@@ -48,59 +75,149 @@
         </div>
 
         <div>
-          <label class="text-xs font-medium text-slate-400 block mb-1.5">Message / Offer Details</label>
-          <textarea id="message" rows="4" class="w-full bg-slate-950 border border-white/10 focus:border-cyan-400/60 rounded-3xl px-4 py-3 text-sm outline-none resize-y min-h-[100px]" placeholder="I'm interested in acquiring hvac.contact to build the leading HVAC review and contractor matching platform. Happy to discuss price and terms."></textarea>
+          <label for="message" class="text-xs font-medium text-slate-400 block mb-1.5">Message / Offer Details</label>
+          <textarea id="message" name="message" rows="4"
+                    class="w-full bg-slate-950 border border-white/10 focus:border-cyan-400/60 rounded-3xl px-4 py-3 text-base outline-none resize-y min-h-[100px]"
+                    placeholder="I'm interested in acquiring hvac.contact to build the leading HVAC review and contractor matching platform. Happy to discuss price and terms."></textarea>
         </div>
       </div>
 
-      <div class="mt-7 flex gap-x-3">
-        <button type="button" onclick="document.getElementById('inquiry-modal').classList.add('hidden')"
-                class="flex-1 py-3.5 rounded-2xl border border-white/20 text-sm font-medium hover:bg-white/5 transition-colors">Cancel</button>
+      <p id="inquiry-error" class="hidden mt-4 text-sm text-rose-400" role="alert"></p>
+
+      <div class="mt-7 flex flex-col sm:flex-row gap-3">
+        <button type="button" data-close-inquiry
+                class="tap-target flex-1 py-3.5 rounded-2xl border border-white/20 text-sm font-medium hover:bg-white/5 transition-colors">Cancel</button>
         <button type="submit"
-                class="flex-1 py-3.5 rounded-2xl bg-white text-slate-950 font-semibold text-sm active:scale-[0.985] transition-all">Submit Private Inquiry</button>
+                class="tap-target flex-1 py-3.5 rounded-2xl bg-white text-slate-950 font-semibold text-sm active:scale-[0.985] transition-all">
+          Submit Private Inquiry
+        </button>
       </div>
     </form>
 
-    <p class="text-center text-[10px] text-slate-500 mt-5">Your information is kept strictly confidential. No public listings or data sharing.</p>
+    <p class="text-center text-[10px] text-slate-500 mt-5">
+      Your information is kept strictly confidential. Delivery via {salesEmail}. No public listings or data sharing.
+    </p>
   </div>
 </div>
 
 <script>
-  function submitInquiry(e) {
+  const modal = document.getElementById('inquiry-modal');
+  const form = document.getElementById('inquiry-form');
+  const sourceInput = document.getElementById('inquiry-source');
+  const errorEl = document.getElementById('inquiry-error');
+  const interestSelect = document.getElementById('interest');
+
+  function openInquiry(source = 'inquiry-modal', interestHint = '') {
+    if (!modal) return;
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    document.body.style.overflow = 'hidden';
+    if (sourceInput) sourceInput.value = source;
+    if (interestHint && interestSelect instanceof HTMLSelectElement) {
+      const match = [...interestSelect.options].find((o) => o.value.toLowerCase().includes(interestHint.toLowerCase()));
+      if (match) interestSelect.value = match.value;
+    }
+    const name = document.getElementById('name');
+    if (name instanceof HTMLElement) name.focus();
+  }
+
+  function closeInquiry() {
+    if (!modal) return;
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+    document.body.style.overflow = '';
+  }
+
+  window.openInquiryModal = openInquiry;
+  window.closeInquiryModal = closeInquiry;
+
+  document.querySelectorAll('[data-open-inquiry]').forEach((el) => {
+    el.addEventListener('click', () => {
+      const source = el.getAttribute('data-open-inquiry') || 'cta';
+      openInquiry(source, source.replace(/-/g, ' '));
+    });
+  });
+
+  document.querySelectorAll('[data-close-inquiry]').forEach((el) => {
+    el.addEventListener('click', closeInquiry);
+  });
+
+  modal?.addEventListener('click', (event) => {
+    if (event.target === modal) closeInquiry();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal && !modal.classList.contains('hidden')) {
+      closeInquiry();
+    }
+  });
+
+  form?.addEventListener('submit', async (e) => {
     e.preventDefault();
+    if (!(form instanceof HTMLFormElement)) return;
 
-    const form = document.getElementById('inquiry-form');
     const submitBtn = form.querySelector('button[type="submit"]');
-    const originalText = submitBtn.innerHTML;
+    const originalText = submitBtn?.innerHTML || 'Submit';
+    if (errorEl) {
+      errorEl.classList.add('hidden');
+      errorEl.textContent = '';
+    }
 
-    submitBtn.innerHTML = `<span class="flex items-center justify-center gap-x-2"><i class="fa-solid fa-spinner fa-spin"></i> Sending...</span>`;
-    submitBtn.disabled = true;
+    const val = (id) => document.getElementById(id)?.value || '';
+    const payload = {
+      name: val('name').trim(),
+      company: val('company'),
+      email: val('email'),
+      phone: val('phone'),
+      interest: val('interest'),
+      message: val('message'),
+      source: val('inquiry-source') || 'inquiry-modal',
+    };
 
-    // Simulate processing + success
-    setTimeout(() => {
+    if (submitBtn) {
+      submitBtn.innerHTML = '<span class="inline-flex items-center justify-center gap-x-2"><i class="fa-solid fa-spinner fa-spin" aria-hidden="true"></i> Sending...</span>';
+      submitBtn.disabled = true;
+    }
+
+    try {
+      const res = await fetch('/api/inquiry', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await res.json().catch(() => ({}));
+
+      if (!res.ok || !data.ok) {
+        throw new Error(data.error || 'Unable to submit inquiry');
+      }
+
+      if (data.mailto) {
+        window.location.href = data.mailto;
+      }
+
       form.innerHTML = `
         <div class="text-center py-8">
           <div class="mx-auto w-16 h-16 rounded-full bg-emerald-400/10 flex items-center justify-center mb-5">
-            <i class="fa-solid fa-check text-4xl text-emerald-400"></i>
+            <i class="fa-solid fa-check text-4xl text-emerald-400" aria-hidden="true"></i>
           </div>
-          <h4 class="font-semibold text-2xl tracking-tight">Inquiry Received</h4>
-          <p class="mt-3 text-slate-400 max-w-xs mx-auto">Thank you. The owner of hvac.contact has been notified and will contact you directly within 24 hours to discuss next steps.</p>
-
-          <button onclick="document.getElementById('inquiry-modal').classList.add('hidden')"
-                  class="mt-8 px-8 py-2.5 text-sm rounded-2xl border border-white/20 hover:bg-white/5 font-medium transition-colors">
+          <h4 class="font-semibold text-2xl tracking-tight">Inquiry Ready</h4>
+          <p class="mt-3 text-slate-400 max-w-xs mx-auto">Your email client should open with a pre-filled message to the owner. If it does not, email sales@desertrich.com directly.</p>
+          <button type="button" data-close-inquiry
+                  class="mt-8 px-8 py-2.5 text-sm rounded-2xl border border-white/20 hover:bg-white/5 font-medium transition-colors tap-target">
             Close Window
           </button>
         </div>
       `;
-    }, 1250);
-  }
-
-  // Keyboard escape for modal
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') {
-      const modal = document.getElementById('inquiry-modal');
-      if (modal && !modal.classList.contains('hidden')) {
-        modal.classList.add('hidden');
+      form.querySelector('[data-close-inquiry]')?.addEventListener('click', closeInquiry);
+    } catch (err) {
+      if (errorEl) {
+        errorEl.textContent = err?.message || 'Something went wrong. Please email sales@desertrich.com.';
+        errorEl.classList.remove('hidden');
+      }
+      if (submitBtn) {
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
       }
     }
   });

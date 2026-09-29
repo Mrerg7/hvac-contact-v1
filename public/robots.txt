@@ -1,6 +1,8 @@
 User-agent: *
 Allow: /
+Allow: /insights/
 Disallow: /404/
 Disallow: /404.html
+Disallow: /api/
 
 Sitemap: https://hvac.contact/sitemap-index.xml
