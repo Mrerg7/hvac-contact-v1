@@ -19,3 +19,7 @@ Thumbs.db
 # IDE
 .vscode/
 .idea/
+
+# Local GUI test artifacts
+GUI_TEST_REPORT.md
+screenshot-*.webp
