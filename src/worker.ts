@@ -132,10 +132,16 @@ async function handleInquiry(request: Request): Promise<Response> {
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url);
-    const canonical = toCanonicalUrl(url);
+    const host = url.hostname.toLowerCase();
+    const isLocal = host === 'localhost' || host === '127.0.0.1' || host.endsWith('.localhost');
 
-    if (canonical.href !== url.href) {
-      return withSecurityHeaders(Response.redirect(canonical.toString(), 301));
+    // Keep local wrangler/astro preview on http://127.0.0.1 — only enforce
+    // https + apex redirects in production.
+    if (!isLocal) {
+      const canonical = toCanonicalUrl(url);
+      if (canonical.href !== url.href) {
+        return withSecurityHeaders(Response.redirect(canonical.toString(), 301));
+      }
     }
 
     if (url.pathname === '/api/inquiry' || url.pathname === '/api/inquiry/') {
